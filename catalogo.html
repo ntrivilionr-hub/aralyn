@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aralayn Skincare | Catálogo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="padding-top: 120px;">
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="logoara.png" alt="Aralayn Logo" style="height: 80px; width: auto; object-fit: contain;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="catalogo.html" style="color: var(--accent); font-weight: 600;">Catálogo</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container fade-in">
+        <div class="section-title">
+            <h2>Nuestro Catálogo Oficial</h2>
+            <p>Arma tu rutina ideal en Maracaibo</p>
+        </div>
+        
+        <div class="product-grid">
+            <div class="product-card reveal">
+                <img src="hyaluserum.jpg" alt="Sérum de Ácido Hialurónico">
+                <h3>Sérum de Ácido Hialurónico</h3>
+                <p>Hidratación profunda y efecto rellenador para una piel suave y radiante todo el día.</p>
+                <span class="price">$15.00</span>
+                <button class="btn-add-cart" onclick="addToCart('Sérum Hialurónico', 15.00, 'hyaluserum.jpg')">Agregar al Carrito</button>
+            </div>
+            <div class="product-card reveal">
+                <img src="garnierskinactive.jpg" alt="Garnier Skin Active">
+                <h3>Garnier Skin Active</h3>
+                <p>Limpieza refrescante que remueve impurezas y maquillaje sin resecar tu rostro.</p>
+                <span class="price">$12.00</span>
+                <button class="btn-add-cart" onclick="addToCart('Garnier Skin Active', 12.00, 'garnierskinactive.jpg')">Agregar al Carrito</button>
+            </div>
+            <div class="product-card reveal">
+                <img src="bebeauty.jpg" alt="Crema Facial Be Beauty">
+                <h3>Crema Facial Be Beauty</h3>
+                <p>Cuidado diario para nutrir y proteger tu barrera cutánea dejándola súper suave.</p>
+                <span class="price">$10.00</span>
+                <button class="btn-add-cart" onclick="addToCart('Crema Be Beauty', 10.00, 'bebeauty.jpg')">Agregar al Carrito</button>
+            </div>
+            <div class="product-card reveal">
+                <img src="niveagel.jpg" alt="Nivea Gel Hidratante">
+                <h3>Nivea Gel Hidratante</h3>
+                <p>Textura ultra ligera en gel. Se absorbe rapidísimo y deja la piel fresca sin sensación grasa.</p>
+                <span class="price">$14.00</span>
+                <button class="btn-add-cart" onclick="addToCart('Nivea Gel', 14.00, 'niveagel.jpg')">Agregar al Carrito</button>
+            </div>
+            <div class="product-card reveal">
+                <img src="larocheposay.jpg" alt="La Roche-Posay Skincare">
+                <h3>La Roche-Posay Effaclar</h3>
+                <p>Tratamiento dermatológico premium, ideal para purificar y cuidar las pieles más exigentes.</p>
+                <span class="price">$25.00</span>
+                <button class="btn-add-cart" onclick="addToCart('La Roche-Posay', 25.00, 'larocheposay.jpg')">Agregar al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-panel" class="cart-panel">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <i class="fas fa-times cart-close" onclick="toggleCart()"></i>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div id="cart-total" class="cart-total">$0.00</div>
+        <button class="btn-main btn-checkout" onclick="checkout()">Pagar por WhatsApp</button>
+    </div>
+
+    <p class="copyright" style="text-align: center; padding: 30px 0; font-size: 0.9rem; color: #888;">© 2026 Aralayn Skincare - Maracaibo</p>
+    <script src="script.js"></script>
+</body>
+</html>
