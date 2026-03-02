@@ -1,96 +1,97 @@
-// --- LÓGICA DEL CARRITO ---
+// CONFIGURACIÓN DEL CARRITO
 let cart = [];
-const cartCountElement = document.getElementById('cart-count');
-const cartItemsElement = document.getElementById('cart-items');
-const cartTotalElement = document.getElementById('cart-total');
+const cartCount = document.getElementById('cart-count');
+const cartPanel = document.getElementById('cart-panel');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotalContainer = document.getElementById('cart-total');
 
-// Función para agregar productos
-function addToCart(name, price, image) {
-    cart.push({ name, price, image });
-    updateCart();
-    alert(`✅ ¡${name} agregado al carrito!`);
+// Función para abrir/cerrar el carrito
+function toggleCart() {
+    cartPanel.classList.toggle('active');
 }
 
-// Función para actualizar la vista del carrito
-function updateCart() {
-    cartCountElement.innerText = cart.length;
-    cartItemsElement.innerHTML = '';
+// Función para añadir al carrito
+function addToCart(name, price, image) {
+    const item = { name, price, image };
+    cart.push(item);
+    updateCartUI();
+    
+    // Feedback visual rápido
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.innerText = "¡Añadido! ✨";
+    btn.style.background = "#25D366";
+    setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = "var(--primary)";
+    }, 1000);
+}
+
+// Actualizar la interfaz del carrito
+function updateCartUI() {
+    cartCount.innerText = cart.length;
+    cartItemsContainer.innerHTML = '';
     let total = 0;
 
     cart.forEach((item, index) => {
         total += item.price;
-        const cartItem = document.createElement('div');
-        cartItem.classList.add('cart-item');
-        cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <div class="cart-item-details">
-                <p class="cart-item-title">${item.name}</p>
-                <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+        cartItemsContainer.innerHTML += `
+            <div class="cart-item">
+                <img src="${item.image}" width="50">
+                <div>
+                    <h4>${item.name}</h4>
+                    <p>$${item.price.toFixed(2)}</p>
+                </div>
+                <i class="fas fa-trash" onclick="removeFromCart(${index})" style="cursor:pointer; color:#ff4d4d;"></i>
             </div>
-            <i class="fas fa-trash cart-item-remove" onclick="removeFromCart(${index})" style="cursor:pointer; color:#88URI_ENC; margin-left:10px;"></i>
         `;
-        cartItemsElement.appendChild(cartItem);
     });
 
-    cartTotalElement.innerText = `$${total.toFixed(2)}`;
+    cartTotalContainer.innerText = `Total: $${total.toFixed(2)}`;
 }
 
-// Función para remover productos
 function removeFromCart(index) {
     cart.splice(index, 1);
-    updateCart();
+    updateCartUI();
 }
 
-// Función para alternar el panel del carrito
-function toggleCart() {
-    document.getElementById('cart-panel').classList.toggle('open');
-}
-
-// Función de Checkout para enviar a WhatsApp
+// ==========================================
+// FUNCIÓN PARA PAGAR POR WHATSAPP (LA QUE NECESITABAS)
+// ==========================================
 function checkout() {
     if (cart.length === 0) {
-        alert("¡Tu carrito está vacío!");
+        alert("Tu carrito está vacío. ¡Añade algunos productos de Aralayn!");
         return;
     }
 
-    let message = "Hola Aralayn! 🌸 Quiero hacer un pedido con los siguientes productos:%0A%0A";
+    const telefono = "584246459365"; // Tu número de Aralayn Skincare
+    let mensaje = "¡Hola Aralayn! 🌸 Quiero realizar el siguiente pedido:%0A%0A";
+    
     let total = 0;
-    cart.forEach(item => {
-        message += `- ${item.name} ($${item.price.toFixed(2)})%0A`;
+    cart.forEach((item, index) => {
+        mensaje += `*${index + 1}.* ${item.name} - $${item.price.toFixed(2)}%0A`;
         total += item.price;
     });
-    message += `%0A*Total: $${total.toFixed(2)}*`;
 
-    // Reemplaza con tu número real de Aralayn
-    const whatsappNumber = "584246459URI_ENC"; 
-    const finalUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+    mensaje += `%0A*Total a pagar: $${total.toFixed(2)}*%0A%0A_¿Me indican los pasos para el pago?_`;
 
-    window.open(finalUrl, '_blank');
-    cart = []; // Vaciar carrito
-    updateCart();
-    toggleCart();
+    // Abrir WhatsApp con el mensaje listo
+    window.open(`https://api.whatsapp.com/send?phone=${telefono}&text=${mensaje}`, '_blank');
 }
 
-// --- ANIMACIÓN DE APARECER AL BAJAR (Scroll Reveal) ---
-function reveal() {
-    const reveals = document.querySelectorAll(".reveal");
-    for (let i = 0; i < reveals.length; i++) {
-        const windowHeight = window.innerHeight;
-        const elementTop = reveals[i].getBoundingClientRect().top;
-        const elementVisible = 100; // px desde el borde inferior
-        
-        if (elementTop < windowHeight - elementVisible) {
-            reveals[i].classList.add("active");
-        }
-    }
-}
-window.addEventListener("scroll", reveal);
-reveal(); // Ejecutar al cargar
-
-// --- Función para la Newsletter (Llamada a la acción) ---
+// Función simple para el boletín
 function suscribir() {
-    const email = prompt("Maracaibo Skincare Tips: Ingresa tu correo electrónico para recibir tips exclusivos:");
-    if (email) {
-        alert(`¡Gracias! Revisa tu bandeja de entrada en: ${email}`);
-    }
+    alert("¡Gracias por suscribirte! Pronto recibirás tips de skincare en tu correo. ✨");
 }
+
+// Animaciones al bajar (Scroll Reveal)
+window.addEventListener('scroll', () => {
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(window => {
+        const windowHeight = window.innerHeight;
+        const revealTop = window.getBoundingClientRect().top;
+        if (revealTop < windowHeight - 100) {
+            window.classList.add('active');
+        }
+    });
+});
